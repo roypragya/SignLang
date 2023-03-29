@@ -12,13 +12,16 @@ def generate_frames():
     CATEGORIES = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "del", "nothing", "space"]
 
     def prepare(filepath):
-        IMG_SIZE = 48
+        IMG_SIZE = 256
         new_array = cv2.resize(filepath, (IMG_SIZE, IMG_SIZE))  # resize image to match model's expected sizing
-        return new_array.reshape(-1, IMG_SIZE, IMG_SIZE, 1) 
-
+        arr1 = np.zeros((3,256,256))
+        arr1[0,:,:]=new_array
+        new_array=arr1.reshape(-1, IMG_SIZE, IMG_SIZE, 3)
+        return new_array
+    
     model = tf.keras.models.load_model("SignLang.h5")
 
-    # url="http://192.0.0.2:8080/video"
+    # url="http://192.168.0.104:8080/video"
 
     cap = cv2.VideoCapture(0)
 
